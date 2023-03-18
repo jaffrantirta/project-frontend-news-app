@@ -12,7 +12,7 @@ export default function Category() {
     const [isLoading, setIsLoading] = useState(true)
     const heads = [{ title: 'No.' }, { title: 'Nama Kategori' }, { title: 'Aksi' }]
 
-    const createCategory = async () => {
+    const store = async () => {
         Swal.fire({
             input: 'text',
             inputLabel: 'Nama kategori',
@@ -34,12 +34,12 @@ export default function Category() {
         }).then(async response => {
             if (response.isConfirmed) {
                 Swal.fire('Berhasil', 'Kategori ditambahkan', 'success')
-                getCategories()
+                getData()
             }
 
         })
     }
-    const deleteCategory = (id, name) => {
+    const remove = (id, name) => {
         Swal.fire({
             title: `Yakin hapus kategori ${name}`,
             icon: 'question',
@@ -62,11 +62,11 @@ export default function Category() {
         }).then(response => {
             if (response.isConfirmed) {
                 Swal.fire('Berhasil', `Kategori ${name} telah dihapus`, 'success')
-                getCategories()
+                getData()
             }
         })
     }
-    const getCategories = async () => {
+    const getData = async () => {
         setIsLoading(true)
         let { data: categories, error } = await supabase
             .from('categories')
@@ -82,8 +82,8 @@ export default function Category() {
                         <td className="p-3 border border-slate-500 text-center">{index + 1}</td>
                         <td className="p-3 border border-slate-500">{item.name}</td>
                         <td className="p-3 border border-slate-500 text-center">
-                            <Link className={'m-1 hover:text-slate-700 text-orange-500'} onClick={() => editCategory(item.id, item.name)} >Edit</Link>
-                            <Link className={'m-1 hover:text-slate-700 text-red-500'} onClick={() => deleteCategory(item.id, item.name)} >Hapus</Link>
+                            <Link className={'m-1 hover:text-slate-700 text-orange-500'} onClick={() => update(item.id, item.name)} >Edit</Link>
+                            <Link className={'m-1 hover:text-slate-700 text-red-500'} onClick={() => remove(item.id, item.name)} >Hapus</Link>
                         </td>
                     </tr>
                 )
@@ -92,7 +92,7 @@ export default function Category() {
         setIsLoading(false)
     }
 
-    const editCategory = (id, name) => {
+    const update = (id, name) => {
         Swal.fire({
             input: 'text',
             inputLabel: 'Nama kategori',
@@ -116,13 +116,13 @@ export default function Category() {
         }).then((result) => {
             if (result.isConfirmed) {
                 Swal.fire('Berhasil', 'Kategori di ubah', 'success')
-                getCategories()
+                getData()
             }
         });
 
     }
     useEffect(() => {
-        getCategories()
+        getData()
     }, [])
 
     return (isLoading ? <Loader loadText={'Mohon tunggu...'} /> :
@@ -130,7 +130,7 @@ export default function Category() {
             <div className='grid grid-cols-1 md:grid-cols-2'>
                 <h1 className='text-2xl'>Kategori</h1>
                 <div className='flex justify-end'>
-                    <ButtonComponent text={'TAMBAH'} className={`md:w-1/4 w-full`} onClick={() => createCategory()} />
+                    <ButtonComponent text={'TAMBAH'} className={`md:w-1/4 w-full`} onClick={() => store()} />
                 </div>
             </div>
             <div className='w-full'>

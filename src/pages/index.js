@@ -4,6 +4,7 @@ import Register from "./Register";
 import Dashboard from "./Dashboard";
 import Category from "./Category";
 import News from "./News";
+import CreateNews from "./CreateNews";
 
 export {
     Home,
@@ -11,5 +12,6 @@ export {
     Register,
     Dashboard,
     Category,
-    News
+    News,
+    CreateNews
 }
