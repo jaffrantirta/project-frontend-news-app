@@ -1,24 +1,23 @@
 import { createClient } from '@supabase/supabase-js';
 import { Modal } from 'flowbite-react';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Swal from 'sweetalert2';
 import { ButtonComponent, InputComponent, TableComponent } from '../components';
 import { ERROR_MESSAGE, SUPABASE_KEY, SUPABASE_URL } from '../utils/Constant';
+import Loader from '../utils/Loader';
 
 export default function Category() {
     const supabaseUrl = SUPABASE_URL
     const supabaseKey = SUPABASE_KEY
     const supabase = createClient(supabaseUrl, supabaseKey)
     const [data, setData] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
     const [modalShow, setModalShow] = useState(false)
+    const formRef = useRef(null)
     const heads = [{ title: 'No.' }, { title: 'Nama Kategori' }, { title: 'Aksi' }]
 
     const addCategory = async (name) => {
-        Swal.fire({
-            text: 'Mohon tunggu...',
-            showConfirmButton: false,
-            allowOutsideClick: false,
-        })
+        setIsLoading(true)
         const { error } = await supabase
             .from('categories')
             .insert([
@@ -32,13 +31,10 @@ export default function Category() {
             getCategories()
             Swal.fire('Berhasil', 'Kategori ditambahkan', 'success')
         }
+        setIsLoading(false)
     }
     const getCategories = async () => {
-        Swal.fire({
-            text: 'Mohon tunggu...',
-            showConfirmButton: false,
-            allowOutsideClick: false,
-        })
+        setIsLoading(true)
         let { data: categories, error } = await supabase
             .from('categories')
             .select('*')
@@ -46,7 +42,6 @@ export default function Category() {
         if (error) {
             Swal.fire(ERROR_MESSAGE, error, 'error')
         } else {
-            Swal.close()
             setData(categories.map((item, index) => {
                 return (
                     <tr key={item.id}>
@@ -57,13 +52,14 @@ export default function Category() {
                 )
             }))
         }
+        setIsLoading(false)
     }
     // eslint-disable-next-line
     useEffect(() => {
         getCategories()
     }, [])
 
-    return (
+    return (isLoading ? <Loader loadText={'Mohon tunggu...'} /> :
         <div>
             <div className='grid grid-cols-1 md:grid-cols-2'>
                 <h1>Kategori</h1>
@@ -86,14 +82,15 @@ export default function Category() {
                         <h3 className="text-xl font-medium text-gray-900 dark:text-white">
                             Masukan data kategori
                         </h3>
-                        <form onSubmit={e => {
+                        <form ref={formRef} onSubmit={e => {
                             e.preventDefault()
                             let formData = new FormData(e.target)
                             let name = formData.get('name')
                             addCategory(name)
+                            formRef.current.reset()
                         }}>
                             <div className='w-full'>
-                                <InputComponent className={`w-full`} name={`name`} placeholder={`Masukan nama kategori`} />
+                                <InputComponent autoFocus={true} className={`w-full`} name={`name`} placeholder={`Masukan nama kategori`} />
                             </div>
                             <div className="w-full">
                                 <ButtonComponent className={'w-full'} text={`TAMBAH`} onClick={() => { }} />
