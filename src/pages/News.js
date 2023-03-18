@@ -54,7 +54,9 @@ export default function News() {
                 return (
                     <tr key={item.id}>
                         <td className="p-3 border border-slate-500 text-center">{index + 1}</td>
-                        <td className="p-3 border border-slate-500">{item.name}</td>
+                        <td className="p-3 border border-slate-500">{item.title}</td>
+                        <td className="p-3 border border-slate-500">{item.created_at}</td>
+                        <td className="p-3 border border-slate-500">{item.is_show ? <p className='text-green-500'>TAYANNG</p> : <p className='text-redd-500'>TIDAk TAYANNG</p>}</td>
                         <td className="p-3 border border-slate-500 text-center">
                             <Link className={'m-1 hover:text-slate-700 text-orange-500'} onClick={() => update(item.id, item.name)} >Edit</Link>
                             <Link className={'m-1 hover:text-slate-700 text-red-500'} onClick={() => remove(item.id, item.name)} >Hapus</Link>
