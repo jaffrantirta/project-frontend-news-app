@@ -3,19 +3,16 @@ import { supabase } from "../auth/Client";
 
 const StorageContext = createContext({});
 
-export const useNews = () => useContext(StorageContext);
+export const useStorage = () => useContext(StorageContext);
 
-export const store = ({ title, content, is_show, image, tags }) => supabase.from('news').insert([{ title: title, content: content, is_show: is_show, image: image, tags: tags }])
-
-export const update = ({ id, title, content, is_show, image, tags }) => supabase.from('news').update([{ title: title, content: content, is_show: is_show, image: image, tags: tags }]).eq('id', id)
-
-export const show = () => supabase.from('news').select('*').order('created_at', { ascending: false })
-
-export const destroy = (id) => supabase.from('news').delete().eq('id', id)
+export const upload = ({ bucket_name, file, path }) => supabase.storage.from(bucket_name).upload(path, file, {
+    cacheControl: '3600',
+    upsert: false
+})
 
 const StorageProvider = ({ children }) => {
     return (
-        <StorageContext.Provider value={{ store, update, show, destroy }}>
+        <StorageContext.Provider value={{ upload }}>
             {children}
         </StorageContext.Provider>
     );
