@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react'
-import { useAuth } from '../context/AuthContext';
+import React from 'react'
 
 export default function Dashboard() {
     return <div>You are logged in</div>;
