@@ -1,25 +1,14 @@
-import { createClient } from '@supabase/supabase-js'
 import React from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import Swal from 'sweetalert2'
-import { APP_NAME, ERROR_MESSAGE, SUPABASE_KEY, SUPABASE_URL } from '../utils/Constant'
+import { useAuth } from '../context/AuthContext'
+import { APP_NAME } from '../utils/Constant'
 import { MENUS } from '../utils/Menus'
 
 export default function SidebarComponent({ toggle }) {
     const currentPath = useLocation().pathname
-    const supabaseUrl = SUPABASE_URL
-    const supabaseKey = SUPABASE_KEY
-    const supabase = createClient(supabaseUrl, supabaseKey)
-    const navigate = useNavigate()
-    const handleLogout = async () => {
-        let { error } = await supabase.auth.signOut()
-        if (error) {
-            Swal.fire(ERROR_MESSAGE, error, 'error')
-            return null
-        }
-        localStorage.removeItem('access_token');
-        navigate('/login')
-    }
+    const { signOut } = useAuth()
+    const handleLogout = async () => await signOut()
 
     return (
         <div className={`flex flex-col h-screen p-5 bg-primary dark:bg-dark-primary mr-5 sticky left-0 top-0 font-primary`}>
@@ -48,7 +37,6 @@ export default function SidebarComponent({ toggle }) {
                                 confirmButtonColor: 'red'
                             }).then(response => {
                                 if (response.isConfirmed) {
-                                    console.log('keluar');
                                     handleLogout()
                                 }
                             })} className="flex items-center p-2 space-x-3 rounded-md text-sm sm:text-base">

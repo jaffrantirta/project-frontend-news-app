@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function InputComponent({ name, value, onChange, autoFocus = false, placeholder, type, inputMode, className }) {
+export default function InputComponent({ ref, name, value, onChange, autoFocus = false, placeholder, type, inputMode, className }) {
     function handleChange(event) {
         if (onChange) {
             onChange(event);
@@ -9,6 +9,7 @@ export default function InputComponent({ name, value, onChange, autoFocus = fals
 
     return (
         <input
+            ref={ref}
             autoFocus={autoFocus}
             value={value}
             className={`p-3 my-1 rounded-full focus:border-primary border border-slate-500 ${className}`}
@@ -16,7 +17,7 @@ export default function InputComponent({ name, value, onChange, autoFocus = fals
             inputMode={inputMode}
             name={name}
             placeholder={placeholder}
-            onChange={handleChange} // call handleChange to trigger onChange prop if it exists
+            onChange={handleChange}
         />
     )
 }

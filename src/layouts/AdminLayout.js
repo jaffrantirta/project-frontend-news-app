@@ -7,7 +7,7 @@ export default function AdminLayout({ children }) {
     // eslint-disable-next-line
     const [toggle, setToggle] = useState(true)
     const handleChild = (e, from) => {
-        (from === 'nav') ? handleSideBar() : (window.innerWidth >= 768) ? console.log() : handleSideBar()
+        (from === 'nav') ? handleSideBar() : (window.innerWidth >= 768) ? console.info() : handleSideBar()
     }
     const handleSideBar = () => {
         setToggle(t => {

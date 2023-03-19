@@ -25,11 +25,11 @@ export default function CreateNews() {
     const store = async (e) => {
         if (file === null) {
             Swal.fire('', 'Masukan gambar!', 'error')
-            throw null
+            throw new Error('File is empty')
         }
         if (categorySelected === 0) {
             Swal.fire('', 'Pilih kategori!', 'error')
-            throw null
+            throw new Error('category not selected yet')
         }
         setIsLoading(true)
         const { data, error } = await supabase.storage.from('images').upload(`${Date.now()}${file.name}`, file, {
