@@ -13,9 +13,11 @@ export const show = () => supabase.from('news').select('*').order('created_at', 
 
 export const destroy = (id) => supabase.from('news').delete().eq('id', id)
 
+export const selectSingleById = (id) => supabase.from('news').select('*').eq('id', id).single()
+
 const NewsProvider = ({ children }) => {
     return (
-        <NewsContext.Provider value={{ store, update, show, destroy }}>
+        <NewsContext.Provider value={{ store, update, show, destroy, selectSingleById }}>
             {children}
         </NewsContext.Provider>
     );

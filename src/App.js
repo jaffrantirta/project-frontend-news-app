@@ -15,6 +15,7 @@ function App() {
             <Route path='/categories' element={<AdminLayout><Category /></AdminLayout>} />
             <Route path='/news' element={<AdminLayout><News /></AdminLayout>} />
             <Route path='/news/create' element={<AdminLayout><CreateNews /></AdminLayout>} />
+            <Route path='/news/update' element={<AdminLayout><CreateNews /></AdminLayout>} />
           </Route>
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
