@@ -22,7 +22,7 @@ export default function Category() {
             preConfirm: async (value) => {
                 const { error } = await store(value)
                 if (error) {
-                    Swal.fire(error.message, error.details, 'error')
+                    Swal.showValidationMessage(error.message)
                     throw error
                 }
                 setRefresh(!refresh)
@@ -46,7 +46,7 @@ export default function Category() {
                 preConfirm: async (value) => {
                     const { error } = await update(id, value)
                     if (error) {
-                        Swal.fire(error.message, error.details, 'error')
+                        Swal.showValidationMessage(error.message)
                         throw error
                     }
                     setRefresh(!refresh)
@@ -67,7 +67,7 @@ export default function Category() {
                 preConfirm: async () => {
                     const { error } = await destroy(id)
                     if (error) {
-                        Swal.fire(error.message, error.details, 'error')
+                        Swal.showValidationMessage(error.message)
                         throw error
                     }
                     setRefresh(!refresh)
@@ -80,7 +80,7 @@ export default function Category() {
         async function getData() {
             setLoading(true)
             const { data: categories, error } = await show()
-            if (error) Swal.fire(error.message, error.details, 'error')
+            if (error) Swal.showValidationMessage(error.message)
             if (categories) setCategoriesList(categories.map((item, index) => {
                 return (
                     <tr key={item.id}>
