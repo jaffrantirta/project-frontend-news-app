@@ -5,15 +5,15 @@ const NewsContext = createContext({});
 
 export const useNews = () => useContext(NewsContext);
 
-export const store = ({ title, content, is_show, image, tags }) => supabase.from('news').insert([{ title: title, content: content, is_show: is_show, image: image, tags: tags }])
+export const store = ({ title, content, is_show, image, tags, category_id }) => supabase.from('news').insert([{ title: title, content: content, is_show: is_show, image: image, tags: tags, category_id: category_id }])
 
-export const update = ({ id, title, content, is_show, image, tags }) => supabase.from('news').update([{ title: title, content: content, is_show: is_show, image: image, tags: tags }]).eq('id', id)
+export const update = ({ id, title, content, is_show, image, tags, category_id }) => supabase.from('news').update([{ title: title, content: content, is_show: is_show, image: image, tags: tags, category_id: category_id }]).eq('id', id)
 
 export const show = () => supabase.from('news').select('*').order('created_at', { ascending: false })
 
 export const destroy = (id) => supabase.from('news').delete().eq('id', id)
 
-export const selectSingleById = (id) => supabase.from('news').select('*').eq('id', id).single()
+export const selectSingleById = (id) => supabase.from('news').select(`*, categories(*)`).eq('id', id).single()
 
 const NewsProvider = ({ children }) => {
     return (

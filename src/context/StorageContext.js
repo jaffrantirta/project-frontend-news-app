@@ -10,7 +10,7 @@ export const upload = ({ bucket_name, file, path }) => supabase.storage.from(buc
     upsert: false
 })
 
-export const remove = ({ bucket_name, path }) => supabase.storage.from(bucket_name).upload(['news/d56aa2d3-3748-40d4-b43e-2ec1b902c24a'])
+export const remove = ({ bucket_name, path }) => supabase.storage.from(bucket_name).remove([path])
 
 const StorageProvider = ({ children }) => {
     return (

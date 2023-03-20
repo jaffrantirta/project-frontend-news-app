@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { ButtonComponent, TableComponent } from '../components';
 import NewsProvider, { show, destroy } from '../context/NewsContext';
+import { remove } from '../context/StorageContext';
 import Loader from '../utils/Loader';
 
 export default function News() {
@@ -13,7 +14,7 @@ export default function News() {
     const heads = [{ title: 'No.' }, { title: 'Judul Berita' }, { title: 'Tanggal dibuat' }, { title: 'Status' }, { title: 'Aksi' }]
 
     useEffect(() => {
-        async function destroyData(id) {
+        async function destroyData(id, path) {
             Swal.fire({
                 title: `Yakin hapus berita ini?`,
                 icon: 'question',
@@ -27,6 +28,7 @@ export default function News() {
                         Swal.showValidationMessage(error.message)
                         throw error
                     }
+                    await remove({ bucket_name: 'images', path: path })
                     setRefresh(!refresh)
                     return true
                 }
@@ -42,15 +44,16 @@ export default function News() {
             if (error) Swal.fire(error.details, error.message, 'error')
             if (news)
                 setNewsList(news.map((item, index) => {
+                    let titleWithoutChar = item.title.replace(/[ .-]/g, '');
                     return (
                         <tr key={item.id}>
                             <td className="p-3 border border-slate-500 text-center">{index + 1}</td>
                             <td className="p-3 border border-slate-500">{item.title}</td>
                             <td className="p-3 border border-slate-500">{item.created_at}</td>
-                            <td className="p-3 border border-slate-500">{item.is_show ? <p className='text-green-500'>TAYANNG</p> : <p className='text-redd-500'>TIDAk TAYANNG</p>}</td>
+                            <td className="p-3 border border-slate-500">{item.is_show ? <p className='text-green-500'>TAYANG</p> : <p className='text-redd-500'>TIDAk TAYANNG</p>}</td>
                             <td className="p-3 border border-slate-500 text-center">
-                                <Link className={'m-1 hover:text-slate-700 text-orange-500'} onClick={() => { }} >Edit</Link>
-                                <Link className={'m-1 hover:text-slate-700 text-red-500'} onClick={() => destroyData(item.id)} >Hapus</Link>
+                                <Link to={`/news/update?id=${item.id}&news=${titleWithoutChar}`} className={'m-1 hover:text-slate-700 text-orange-500'}>Edit</Link>
+                                <Link className={'m-1 hover:text-slate-700 text-red-500'} onClick={() => destroyData(item.id, item.image)} >Hapus</Link>
                             </td>
                         </tr>
                     )
