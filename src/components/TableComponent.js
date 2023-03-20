@@ -11,7 +11,7 @@ export default function TableComponent({ data, heads }) {
                 </tr>
             </thead>
             <tbody>
-                {data.map((row) => row)}
+                {data.length > 0 ? data.map((row) => row) : <p className='p-3'>Tidak ada data</p>}
             </tbody>
         </table>
     )
