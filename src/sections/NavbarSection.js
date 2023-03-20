@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import { APP_NAME, ERROR_MESSAGE } from '../utils/Constant'
+import Loader from '../utils/Loader'
 import { show } from './../context/CategoryContext'
 
 export default function NavbarSection() {
