@@ -5,6 +5,7 @@ import Dashboard from "./Dashboard";
 import Category from "./Category";
 import News from "./News";
 import CreateNews from "./CreateNews";
+import NewsRead from "./NewsRead";
 
 export {
     Home,
@@ -13,5 +14,6 @@ export {
     Dashboard,
     Category,
     News,
-    CreateNews
+    CreateNews,
+    NewsRead
 }

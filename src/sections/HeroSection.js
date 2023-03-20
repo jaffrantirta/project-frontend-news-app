@@ -10,7 +10,7 @@ export default function HeroSection() {
 
     useEffect(() => {
         async function getData() {
-            const { data: news, error } = await show().range(0, 5).select('*, categories(*)')
+            const { data: news, error } = await show().range(0, 4).select('*, categories(*)')
             if (error) {
                 Swal.fire(ERROR_MESSAGE, error.message, 'error')
                 throw error
