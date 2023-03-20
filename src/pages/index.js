@@ -6,6 +6,7 @@ import Category from "./Category";
 import News from "./News";
 import CreateNews from "./CreateNews";
 import NewsRead from "./NewsRead";
+import NewsList from "./NewsList";
 
 export {
     Home,
@@ -15,5 +16,6 @@ export {
     Category,
     News,
     CreateNews,
-    NewsRead
+    NewsRead,
+    NewsList
 }

@@ -1,12 +1,17 @@
 import { Dropdown } from 'flowbite-react'
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import { APP_NAME, ERROR_MESSAGE } from '../utils/Constant'
 import { show } from './../context/CategoryContext'
 
 export default function NavbarSection() {
     const [categoriesList, setCategoriesList] = useState([])
+    const navigate = useNavigate()
+
+    const goTo = (id, name) => {
+        navigate(`/search?id=${id}&name=${name}`)
+    }
 
     useEffect(() => {
         async function getCategories() {
@@ -30,7 +35,7 @@ export default function NavbarSection() {
                 >
                     {categoriesList.map((item, index) => {
                         return (
-                            <Dropdown.Item key={index}>
+                            <Dropdown.Item key={index} onClick={() => goTo(item.id, item.name)}>
                                 {item.name}
                             </Dropdown.Item>
                         )
@@ -42,7 +47,7 @@ export default function NavbarSection() {
                 {categoriesList.map((item, index) => {
                     return (
                         <div className='hover:bg-primary hover:text-slate-100 p-3 transition-all duration-300 rounded-full' key={index}>
-                            <Link to={'/'} className=''>{item.name}</Link>
+                            <Link to={`/search?id=${item.id}&name=${item.name}`} className=''>{item.name}</Link>
                         </div>
 
                     )

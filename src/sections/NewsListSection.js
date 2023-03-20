@@ -2,6 +2,7 @@ import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import Swal from 'sweetalert2'
 import { NewsListComponent } from '../components'
+import { showFrom } from '../context/HitContext'
 import { show } from '../context/NewsContext'
 import { ERROR_MESSAGE } from '../utils/Constant'
 
@@ -27,7 +28,7 @@ export default function NewsListSection() {
             setNewsListMiddle(data)
         }
         async function getNewsRight() {
-            const { data, error } = await show().eq('category_id', 11).select('*, categories(*)')
+            const { data, error } = await showFrom({ column: 'hit', ascending: false })
             if (error) {
                 Swal.fire(ERROR_MESSAGE, error.message, 'error')
                 throw error
@@ -64,12 +65,12 @@ export default function NewsListSection() {
             <div className='flex flex-col gap-5 overflow-y-auto'>
                 <p className='text-2xl text-red-600 font-bold underline'>BERITA TERPOPULER</p>
                 {newsListRight.map((item, index) => <NewsListComponent
+                    id={item.news.id}
                     key={index}
-                    id={item.id}
-                    title={item.title}
-                    img={item.image_public_url}
-                    date={moment(item.created_at).format('ll')}
-                    category={item.categories.name} />)}
+                    title={item.news.title}
+                    img={item.news.image_public_url}
+                    date={moment(item.news.created_at).format('ll')}
+                    category={item.news.categories.name} />)}
             </div>
         </div>
     )

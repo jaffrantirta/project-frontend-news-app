@@ -5,13 +5,7 @@ const HitContext = createContext({});
 
 export const useCategory = () => useContext(HitContext);
 
-export const store = (name) => supabase.from('hits').insert([{ name: name }])
-
-export const update = (id, name) => supabase.from('hits').update([{ name: name }]).eq('id', id)
-
-export const show = () => supabase.from('hits').select('*').order('created_at', { ascending: false })
-
-export const destroy = (id) => supabase.from('hits').delete().eq('id', id)
+export const showFrom = ({ ascending, column }) => supabase.from('hits').select('*, news(*, categories(*))').order(column, { ascending: ascending })
 
 export const updateOrCreate = async (newsId) => await supabase
     .from('hits')
@@ -41,7 +35,7 @@ export const updateOrCreate = async (newsId) => await supabase
 
 const HitProvider = ({ children }) => {
     return (
-        <HitContext.Provider value={{ store, update, show, destroy, updateOrCreate }}>
+        <HitContext.Provider value={{ showFrom, updateOrCreate }}>
             {children}
         </HitContext.Provider>
     );

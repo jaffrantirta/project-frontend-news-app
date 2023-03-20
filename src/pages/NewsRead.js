@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import { NewsListComponent } from '../components'
-import { updateOrCreate } from '../context/HitContext'
-import { show, selectSingleById } from '../context/NewsContext'
+import { showFrom, updateOrCreate } from '../context/HitContext'
+import { selectSingleById } from '../context/NewsContext'
 import { HeaderSection, NavbarSection } from '../sections'
 import { ERROR_MESSAGE } from '../utils/Constant'
 import Loader from '../utils/Loader'
@@ -18,7 +18,7 @@ export default function NewsRead() {
     useEffect(() => {
         const queryParams = new URLSearchParams(search)
         async function getNewsRight() {
-            const { data, error } = await show().eq('category_id', 11).select('*, categories(*)').range(0, 10)
+            const { data, error } = await showFrom({ column: 'hit', ascending: false })
             if (error) {
                 Swal.fire(ERROR_MESSAGE, error.message, 'error')
                 throw error
@@ -73,12 +73,12 @@ export default function NewsRead() {
                 <div className='flex flex-col gap-5 overflow-y-auto'>
                     <p className='text-2xl text-red-600 font-bold underline'>BERITA TERPOPULER</p>
                     {newsListRight.map((item, index) => <NewsListComponent
-                        id={item.id}
+                        id={item.news.id}
                         key={index}
-                        title={item.title}
-                        img={item.image_public_url}
-                        date={moment(item.created_at).format('ll')}
-                        category={item.categories.name} />)}
+                        title={item.news.title}
+                        img={item.news.image_public_url}
+                        date={moment(item.news.created_at).format('ll')}
+                        category={item.news.categories.name} />)}
                 </div>
             </div>
         </div>

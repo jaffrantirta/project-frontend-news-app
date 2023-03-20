@@ -4,6 +4,7 @@ import SidebarComponent from "./SidebarComponent";
 import TableComponent from "./TableComponent";
 import HeroImageComponent from "./HeroImageComponent";
 import NewsListComponent from "./NewsListComponent";
+import Message from "./Message";
 
 export {
     InputComponent,
@@ -11,5 +12,6 @@ export {
     SidebarComponent,
     TableComponent,
     HeroImageComponent,
-    NewsListComponent
+    NewsListComponent,
+    Message
 }
