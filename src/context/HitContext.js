@@ -15,32 +15,24 @@ export const destroy = (id) => supabase.from('hits').delete().eq('id', id)
 
 export const updateOrCreate = async (newsId) => await supabase
     .from('hits')
-    .select('news_id')
+    .select('*')
     .eq('news_id', newsId)
     .then(({ data: hits }) => {
-        console.log(hits, newsId)
         if (hits.length > 0) {
             const hitId = hits[0].id
+            const hitCount = hits[0].hit + 1
             supabase
                 .from('hits')
-                .update({ hit: supabase.sql(`hit + ${1}`) })
+                .update({ hit: hitCount })
                 .eq('id', hitId)
-                .then(({ data: hit }) => {
-                    console.log(`Hit count updated for hit ID ${hitId}`)
-                })
-                .catch(error => {
-                    console.error(error)
-                })
+                .then(() => console.info('hit updated'))
+                .catch(error => console.error(error))
         } else {
             supabase
                 .from('hits')
                 .insert({ news_id: newsId, hit: 1 })
-                .then(({ data: hit }) => {
-                    console.log(`New hit record inserted for news ID ${newsId}`)
-                })
-                .catch(error => {
-                    console.error(error)
-                })
+                .then(() => console.info('hit created'))
+                .catch(error => console.error(error))
         }
     })
     .catch(error => {

@@ -7,12 +7,11 @@ import { ERROR_MESSAGE } from '../utils/Constant'
 export default function CategorySection() {
     useEffect(() => {
         async function getCategoriesWithNews() {
-            const { data, error } = await show().select('name, news(*)')
+            const { error } = await show().select('name, news(*)')
             if (error) {
                 Swal.fire(ERROR_MESSAGE, error.message, 'error')
                 throw error
             }
-            console.log(data);
         }
         getCategoriesWithNews()
     }, [])

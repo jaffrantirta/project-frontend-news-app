@@ -36,9 +36,13 @@ export default function NewsRead() {
             setLoading(false)
         }
 
+        async function hit() {
+            await updateOrCreate(queryParams.get('id'))
+        }
+
         getNewsRight()
         if (queryParams.has('id')) getNewsDetail()
-        if (queryParams.has('id')) updateOrCreate(queryParams.get('id'))
+        if (queryParams.has('id')) hit()
     }, [search])
 
     return (loading ? <Loader loadText={'Memuat...'} /> :
