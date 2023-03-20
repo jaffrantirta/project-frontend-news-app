@@ -32,6 +32,7 @@ export default function HeroSection() {
                     {newsSet.map((news) => {
                         return (
                             <HeroImageComponent
+                                id={news.id}
                                 key={news.id}
                                 img={news.image_public_url}
                                 category={news.categories.name}

@@ -30,7 +30,7 @@ export default function NavbarSection() {
                 >
                     {categoriesList.map((item, index) => {
                         return (
-                            <Dropdown.Item>
+                            <Dropdown.Item key={index}>
                                 {item.name}
                             </Dropdown.Item>
                         )
@@ -38,7 +38,7 @@ export default function NavbarSection() {
                 </Dropdown>
             </div>
             <div className='hidden md:flex justify-evenly p-2'>
-                <h1 className='text-primary font-bold text-3xl'>{APP_NAME}</h1>
+                <Link to={'/'} className='text-primary font-bold text-3xl'>{APP_NAME}</Link>
                 {categoriesList.map((item, index) => {
                     return (
                         <div className='hover:bg-primary hover:text-slate-100 p-3 transition-all duration-300 rounded-full' key={index}>

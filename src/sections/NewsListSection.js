@@ -42,7 +42,9 @@ export default function NewsListSection() {
         <div className='grid grid-cols-1 md:grid-cols-4 gap-5 p-10 md:px-44 h-fit md:h-screen overflow-hidden'>
             <div className='flex flex-col gap-5 overflow-y-auto'>
                 <p className='text-2xl text-red-600 font-bold underline'>BERITA UTAMA</p>
-                {newsListLeft.map((item) => <NewsListComponent
+                {newsListLeft.map((item, index) => <NewsListComponent
+                    key={index}
+                    id={item.id}
                     withImage={false}
                     classNameTitle={'text-blue-900'}
                     title={item.title}
@@ -50,7 +52,9 @@ export default function NewsListSection() {
                     category={item.categories.name} />)}
             </div>
             <div className='col-span-2 flex flex-col gap-5 overflow-y-auto'>
-                {newsListMiddle.map((item) => <NewsListComponent
+                {newsListMiddle.map((item, index) => <NewsListComponent
+                    key={index}
+                    id={item.id}
                     classNameTitle={'md:text-2xl'}
                     title={item.title}
                     img={item.image_public_url}
@@ -59,7 +63,9 @@ export default function NewsListSection() {
             </div>
             <div className='flex flex-col gap-5 overflow-y-auto'>
                 <p className='text-2xl text-red-600 font-bold underline'>BERITA TERPOPULER</p>
-                {newsListRight.map((item) => <NewsListComponent
+                {newsListRight.map((item, index) => <NewsListComponent
+                    key={index}
+                    id={item.id}
                     title={item.title}
                     img={item.image_public_url}
                     date={moment(item.created_at).format('ll')}

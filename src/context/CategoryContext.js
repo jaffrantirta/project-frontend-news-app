@@ -11,11 +11,13 @@ export const update = (id, name) => supabase.from('categories').update([{ name: 
 
 export const show = () => supabase.from('categories').select('*').order('created_at', { ascending: false })
 
+export const supa = () => supabase
+
 export const destroy = (id) => supabase.from('categories').delete().eq('id', id)
 
 const CategoryProvider = ({ children }) => {
     return (
-        <CategoryContext.Provider value={{ store, update, show, destroy }}>
+        <CategoryContext.Provider value={{ store, update, show, destroy, supa }}>
             {children}
         </CategoryContext.Provider>
     );
