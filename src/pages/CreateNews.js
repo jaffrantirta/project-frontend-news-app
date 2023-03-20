@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import Loader from '../utils/Loader';
 import { store, selectSingleById, update } from '../context/NewsContext';
 import { show } from '../context/CategoryContext';
-import { remove, upload } from '../context/StorageContext';
+import { remove, storage, upload } from '../context/StorageContext';
 import { v4 as uuidv4 } from 'uuid';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ERROR_MESSAGE } from '../utils/Constant';
@@ -25,6 +25,7 @@ export default function CreateNews() {
     const [isLoading, setIsLoading] = useState(false)
     const [path, setPath] = useState('')
     const [isShow, setIsShow] = useState(true)
+    const [imagePublicUrl, setImagePublicUrl] = useState('')
 
     const onChange = (newContent) => {
         setContent(newContent);
@@ -43,6 +44,7 @@ export default function CreateNews() {
         setIsLoading(true)
         let v_path = path
         let new_path = null
+        let image_public_url = imagePublicUrl
         if (file) {
             if (queryParams.has('id')) await remove({ bucket_name: 'images', path: v_path })
             const { data, error } = await upload({
@@ -54,8 +56,14 @@ export default function CreateNews() {
                 Swal.fire(error.name, ERROR_MESSAGE, 'error')
                 throw error
             }
+
+            const { data: dataStorage } = await storage('images').getPublicUrl(data.path)
+
+
+
             v_path = data.path
             new_path = data.path
+            image_public_url = dataStorage.publicUrl
         }
 
         if (queryParams.has('id')) {
@@ -66,7 +74,8 @@ export default function CreateNews() {
                 category_id: categorySelected,
                 image: v_path,
                 is_show: isShow,
-                id: queryParams.get('id')
+                id: queryParams.get('id'),
+                image_public_url: image_public_url
             })
             if (errorNews) {
                 if (new_path !== null) {
@@ -83,7 +92,8 @@ export default function CreateNews() {
                 content: content,
                 category_id: categorySelected,
                 image: v_path,
-                is_show: isShow
+                is_show: isShow,
+                image_public_url: image_public_url
             })
             if (errorNews) {
                 if (new_path !== null) {
@@ -118,6 +128,7 @@ export default function CreateNews() {
             setCategorySelectedName(data.categories.name)
             setIsShow(data.is_show)
             setIsLoading(false)
+            setImagePublicUrl(data.image_public_url)
         }
         async function getCategories() {
             setIsLoading(true)

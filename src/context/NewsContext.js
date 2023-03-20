@@ -5,9 +5,9 @@ const NewsContext = createContext({});
 
 export const useNews = () => useContext(NewsContext);
 
-export const store = ({ title, content, is_show, image, tags, category_id }) => supabase.from('news').insert([{ title: title, content: content, is_show: is_show, image: image, tags: tags, category_id: category_id }])
+export const store = ({ title, content, is_show, image, tags, category_id, image_public_url }) => supabase.from('news').insert([{ title: title, content: content, is_show: is_show, image: image, tags: tags, category_id: category_id, image_public_url: image_public_url }])
 
-export const update = ({ id, title, content, is_show, image, tags, category_id }) => supabase.from('news').update([{ title: title, content: content, is_show: is_show, image: image, tags: tags, category_id: category_id }]).eq('id', id)
+export const update = ({ id, title, content, is_show, image, tags, category_id, image_public_url }) => supabase.from('news').update([{ title: title, content: content, is_show: is_show, image: image, tags: tags, category_id: category_id, image_public_url: image_public_url }]).eq('id', id)
 
 export const show = () => supabase.from('news').select('*').order('created_at', { ascending: false })
 

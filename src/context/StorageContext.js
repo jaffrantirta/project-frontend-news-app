@@ -12,9 +12,11 @@ export const upload = ({ bucket_name, file, path }) => supabase.storage.from(buc
 
 export const remove = ({ bucket_name, path }) => supabase.storage.from(bucket_name).remove([path])
 
+export const storage = (bucket_name) => supabase.storage.from(bucket_name)
+
 const StorageProvider = ({ children }) => {
     return (
-        <StorageContext.Provider value={{ upload, remove }}>
+        <StorageContext.Provider value={{ upload, remove, storage }}>
             {children}
         </StorageContext.Provider>
     );
