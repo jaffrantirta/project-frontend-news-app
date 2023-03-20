@@ -30,6 +30,7 @@ export default function CategorySection() {
                         </div>
                     )
                 }
+                return null
 
             })}
         </div>

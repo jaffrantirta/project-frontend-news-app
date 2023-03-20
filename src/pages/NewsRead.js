@@ -67,7 +67,7 @@ export default function NewsRead() {
                     <div dangerouslySetInnerHTML={{ __html: newsDetail.content }} />
                     <div className='flex items-center'>
                         <p className='text-lg font-bold mr-5'>TAGS: </p>
-                        {tags > 0 ? tags.map((item, index) => <Link key={index} className='p-3 bg-slate-400 rounded-full shadow-md hover:bg-slate-600 w-fit cursor-pointer mx-2 hover:text-slate-100'>{item}</Link>) : <></>}
+                        {tags.map((item, index) => <Link to={`/search?tag=${item}`} key={index} className='p-3 bg-slate-400 rounded-full shadow-md hover:bg-slate-600 w-fit cursor-pointer mx-2 hover:text-slate-100'>{item}</Link>)}
                     </div>
                 </div>
                 <div className='flex flex-col gap-5 overflow-y-auto'>

@@ -13,13 +13,15 @@ export const show = () => supabase.from('news').select('*').order('created_at', 
 
 export const destroy = (id) => supabase.from('news').delete().eq('id', id)
 
+export const showByTag = (tag) => supabase.from('news').select('*, categories(*)').order('created_at', { ascending: false }).like('tags', `%${tag}%`)
+
 export const showLike = (column, like) => supabase.from('news').select('*, categories(*)').order('created_at', { ascending: false }).like(column, like).range(0, 10)
 
 export const selectSingleById = (id) => supabase.from('news').select(`*, categories(*)`).eq('id', id).single()
 
 const NewsProvider = ({ children }) => {
     return (
-        <NewsContext.Provider value={{ store, update, show, destroy, selectSingleById, showLike }}>
+        <NewsContext.Provider value={{ store, update, show, destroy, selectSingleById, showLike, showByTag }}>
             {children}
         </NewsContext.Provider>
     );

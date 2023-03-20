@@ -5,7 +5,7 @@ import Swal from 'sweetalert2'
 import { ImgNotFound } from '../assets'
 import { Message, NewsListComponent } from '../components'
 import { showFrom } from '../context/HitContext'
-import { show, showLike } from '../context/NewsContext'
+import { show, showByTag, showLike } from '../context/NewsContext'
 import { HeaderSection, NavbarSection } from '../sections'
 import { ERROR_MESSAGE } from '../utils/Constant'
 import Loader from '../utils/Loader'
@@ -44,8 +44,18 @@ export default function NewsList() {
             setNewsListLeft(data)
             setLoading(false)
         }
+        async function getNewsByTag() {
+            const { data, error } = await showByTag(queryParams.get('tag'))
+            if (error) {
+                Swal.fire(ERROR_MESSAGE, error.message, 'error')
+                throw error
+            }
+            setNewsListLeft(data)
+            setLoading(false)
+        }
         if (queryParams.has('keyword')) getSearch()
         if (queryParams.has('id')) getNewsByCategory()
+        if (queryParams.has('tag')) getNewsByTag()
         getNewsRight()
     }, [search])
 
@@ -59,10 +69,9 @@ export default function NewsList() {
             <div className='p-10 grid grid-cols-q md:grid-cols-4 gap-10'>
                 <div className='md:col-span-3'>
                     {newsListLeft.length === 0 ? <Message img={ImgNotFound} message={'Tidak ada berita ditemukan'} /> : newsListLeft.map((item, index) => (
-                        <div className='my-5'>
+                        <div className='my-5' key={index}>
                             <NewsListComponent
                                 id={item.id}
-                                key={index}
                                 title={item.title}
                                 img={item.image_public_url}
                                 date={moment(item.created_at).format('ll')}
