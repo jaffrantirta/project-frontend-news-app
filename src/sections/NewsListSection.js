@@ -1,36 +1,69 @@
-import React from 'react'
+import moment from 'moment'
+import React, { useEffect, useState } from 'react'
+import Swal from 'sweetalert2'
 import { NewsListComponent } from '../components'
+import { show } from '../context/NewsContext'
+import { ERROR_MESSAGE } from '../utils/Constant'
 
 export default function NewsListSection() {
-    const img = 'https://redaksi9.com/uploads/berita/berita_JelangNyepidanRamadhanBIdanPerbankanTutuppada2123Maret2023.jpg'
+    const [newsListLeft, setNewsListLeft] = useState([])
+    const [newsListMiddle, setNewsListMiddle] = useState([])
+    const [newsListRight, setNewsListRight] = useState([])
+    useEffect(() => {
+        async function getNewsLeft() {
+            const { data, error } = await show().eq('category_id', 17).select('*, categories(*)')
+            if (error) {
+                Swal.fire(ERROR_MESSAGE, error.message, 'error')
+                throw error
+            }
+            setNewsListLeft(data)
+        }
+        async function getNewsMiddle() {
+            const { data, error } = await show().select('*, categories(*)')
+            if (error) {
+                Swal.fire(ERROR_MESSAGE, error.message, 'error')
+                throw error
+            }
+            setNewsListMiddle(data)
+        }
+        async function getNewsRight() {
+            const { data, error } = await show().eq('category_id', 11).select('*, categories(*)')
+            if (error) {
+                Swal.fire(ERROR_MESSAGE, error.message, 'error')
+                throw error
+            }
+            setNewsListRight(data)
+        }
+        getNewsLeft()
+        getNewsMiddle()
+        getNewsRight()
+    }, [])
     return (
         <div className='grid grid-cols-1 md:grid-cols-4 gap-5 p-10 md:px-44 h-fit md:h-screen overflow-hidden'>
             <div className='flex flex-col gap-5 overflow-y-auto'>
                 <p className='text-2xl text-red-600 font-bold underline'>BERITA UTAMA</p>
-                <NewsListComponent withImage={false} classNameTitle={'text-blue-900'} title={'sajsajbsjabsjbajsbjabsjbasj ajsabsabsjbasbababsajb ahsjabsjbajsbajbsajbsab'} date={'20 maret 2023'} category={'beruta'} />
-                <NewsListComponent withImage={false} classNameTitle={'text-blue-900'} title={'sajsajbsjabsjbajsbjabsjbasj ajsabsabsjbasbababsajb ahsjabsjbajsbajbsajbsab'} date={'20 maret 2023'} category={'beruta'} />
-                <NewsListComponent withImage={false} classNameTitle={'text-blue-900'} title={'sajsajbsjabsjbajsbjabsjbasj ajsabsabsjbasbababsajb ahsjabsjbajsbajbsajbsab'} date={'20 maret 2023'} category={'beruta'} />
-                <NewsListComponent withImage={false} classNameTitle={'text-blue-900'} title={'sajsajbsjabsjbajsbjabsjbasj ajsabsabsjbasbababsajb ahsjabsjbajsbajbsajbsab'} date={'20 maret 2023'} category={'beruta'} />
-                <NewsListComponent withImage={false} classNameTitle={'text-blue-900'} title={'sajsajbsjabsjbajsbjabsjbasj ajsabsabsjbasbababsajb ahsjabsjbajsbajbsajbsab'} date={'20 maret 2023'} category={'beruta'} />
+                {newsListLeft.map((item) => <NewsListComponent
+                    withImage={false}
+                    classNameTitle={'text-blue-900'}
+                    title={item.title}
+                    date={moment(item.created_at).format('ll')}
+                    category={item.categories.name} />)}
             </div>
             <div className='col-span-2 flex flex-col gap-5 overflow-y-auto'>
-                <NewsListComponent img={img} title={'sajsajbsjabsjbajsbjabsjbasj ajsabsabsjbasbababsajb ahsjabsjbajsbajbsajbsab'} date={'20 maret 2023'} classNameTitle={'md:text-2xl'} category={'beruta'} />
-                <NewsListComponent img={img} title={'sajsajbsjabsjbajsbjabsjbasj ajsabsabsjbasbababsajb ahsjabsjbajsbajbsajbsab'} date={'20 maret 2023'} classNameTitle={'md:text-2xl'} category={'beruta manca negara wowow'} />
-                <NewsListComponent img={img} title={'sajsajbsjabsjbajsbjabsjbasj '} date={'20 maret 2023'} classNameTitle={'md:text-2xl'} category={'beruta'} />
-                <NewsListComponent img={img} title={'sajsajbsjabsjbajsbjabsjbasj ajsabsabsjbasbababsajb '} date={'20 maret 2023'} classNameTitle={'md:text-2xl'} category={'beruta'} />
+                {newsListMiddle.map((item) => <NewsListComponent
+                    classNameTitle={'md:text-2xl'}
+                    title={item.title}
+                    img={item.image_public_url}
+                    date={moment(item.created_at).format('ll')}
+                    category={item.categories.name} />)}
             </div>
             <div className='flex flex-col gap-5 overflow-y-auto'>
                 <p className='text-2xl text-red-600 font-bold underline'>BERITA TERPOPULER</p>
-                <NewsListComponent img={img} title={'sajsajbsjabsjbajsbjabsjbasj ajsabsabsjbasbababsajb '} date={'20 maret 2023'} category={'beruta'} />
-                <NewsListComponent img={img} title={'sajsajbsjabsjbajsbjabsjbasj ajsabsabsjbasbababsajb '} date={'20 maret 2023'} category={'beruta'} />
-                <NewsListComponent img={img} title={'sajsajbsjabsjbajsbjabsjbasj ajsabsabsjbasbababsajb '} date={'20 maret 2023'} category={'beruta'} />
-                <NewsListComponent img={img} title={'sajsajbsjabsjbajsbjabsjbasj ajsabsabsjbasbababsajb '} date={'20 maret 2023'} category={'beruta'} />
-                <NewsListComponent img={img} title={'sajsajbsjabsjbajsbjabsjbasj ajsabsabsjbasbababsajb '} date={'20 maret 2023'} category={'beruta'} />
-                <NewsListComponent img={img} title={'sajsajbsjabsjbajsbjabsjbasj ajsabsabsjbasbababsajb '} date={'20 maret 2023'} category={'beruta'} />
-                <NewsListComponent img={img} title={'sajsajbsjabsjbajsbjabsjbasj ajsabsabsjbasbababsajb '} date={'20 maret 2023'} category={'beruta'} />
-                <NewsListComponent img={img} title={'sajsajbsjabsjbajsbjabsjbasj ajsabsabsjbasbababsajb '} date={'20 maret 2023'} category={'beruta'} />
-                <NewsListComponent img={img} title={'sajsajbsjabsjbajsbjabsjbasj ajsabsabsjbasbababsajb '} date={'20 maret 2023'} category={'beruta'} />
-                <NewsListComponent img={img} title={'sajsajbsjabsjbajsbjabsjbasj ajsabsabsjbasbababsajb '} date={'20 maret 2023'} category={'beruta'} />
+                {newsListRight.map((item) => <NewsListComponent
+                    title={item.title}
+                    img={item.image_public_url}
+                    date={moment(item.created_at).format('ll')}
+                    category={item.categories.name} />)}
             </div>
         </div>
     )
