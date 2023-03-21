@@ -7,7 +7,7 @@ export default function Login() {
     const [errorMsg, setErrorMsg] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-    const { login } = useAuth();
+    const { login, updateSession } = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -23,7 +23,10 @@ export default function Login() {
             }
             const { data: { user, session }, error } = await login(email, password);
             if (error) setErrorMsg(error.message);
-            if (user && session) navigate("/dashboard");
+            if (user && session) {
+                await updateSession()
+                navigate("/dashboard")
+            }
         } catch (error) {
             setErrorMsg("Email or Password Incorrect");
         }

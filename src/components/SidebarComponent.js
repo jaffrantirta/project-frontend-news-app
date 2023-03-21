@@ -8,7 +8,6 @@ import { MENUS } from '../utils/Menus'
 export default function SidebarComponent({ toggle }) {
     const currentPath = useLocation().pathname
     const { signOut } = useAuth()
-    const handleLogout = async () => await signOut()
 
     return (
         <div className={`flex flex-col h-screen p-5 bg-primary dark:bg-dark-primary mr-5 sticky left-0 top-0 font-primary`}>
@@ -34,10 +33,19 @@ export default function SidebarComponent({ toggle }) {
                                 icon: 'question',
                                 showCancelButton: true,
                                 confirmButtonText: 'Logout',
-                                confirmButtonColor: 'red'
+                                confirmButtonColor: 'red',
+                                showLoaderOnConfirm: true,
+                                preConfirm: async () => {
+                                    const { data, error } = await signOut()
+                                    if (error) {
+                                        Swal.showValidationMessage('Gagal logout')
+                                        throw error
+                                    }
+                                    return true
+
+                                }
                             }).then(response => {
                                 if (response.isConfirmed) {
-                                    handleLogout()
                                 }
                             })} className="flex items-center p-2 space-x-3 rounded-md text-sm sm:text-base">
                                 <span>Logout</span>

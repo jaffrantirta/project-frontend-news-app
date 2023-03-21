@@ -1,7 +1,6 @@
 import React from 'react'
 
 export default function Message({ img, message }) {
-    console.log(message, img);
     return (
         <div className='w-full h-full flex flex-col items-center'>
             <img className='w-1/4 text-center' alt={message} src={img} />

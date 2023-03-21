@@ -17,14 +17,19 @@ const AuthProvider = ({ children }) => {
 
     const checkSession = async () => {
         setLoading(true)
-        const { data: session } = await supabase.auth.getSession()
-        if (session) {
-            setAuth(true)
-            setUser(session.user)
+        const { data } = await supabase.auth.getSession()
+        if (data.session === null) {
+            setAuth(false)
+            setUser(null)
         } else {
+            setAuth(true)
+            setUser(data.user)
         }
         setLoading(false)
     }
+    const updateSession = async () => {
+        await checkSession();
+    };
 
     useEffect(() => {
         checkSession()
@@ -35,7 +40,7 @@ const AuthProvider = ({ children }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ user, auth, login, signOut }}>
+        <AuthContext.Provider value={{ user, auth, login, signOut, updateSession }}>
             {children}
         </AuthContext.Provider>
     )
