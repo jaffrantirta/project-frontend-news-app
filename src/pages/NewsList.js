@@ -79,7 +79,6 @@ export default function NewsList() {
                                 category={item.categories.name} />
                         </div>
                     ))}
-}
                 </div>
                 <div className='flex flex-col gap-5 overflow-y-auto'>
                     <p className='text-2xl text-red-600 font-bold underline'>BERITA TERPOPULER</p>
