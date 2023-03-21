@@ -7,7 +7,7 @@ import { MENUS } from '../utils/Menus'
 
 export default function SidebarComponent({ toggle }) {
     const currentPath = useLocation().pathname
-    const { signOut } = useAuth()
+    const { signOut, updateSession } = useAuth()
 
     return (
         <div className={`flex flex-col h-screen p-5 bg-primary dark:bg-dark-primary mr-5 sticky left-0 top-0 font-primary`}>
@@ -41,6 +41,7 @@ export default function SidebarComponent({ toggle }) {
                                         Swal.showValidationMessage('Gagal logout')
                                         throw error
                                     }
+                                    await updateSession()
                                     return true
                                 }
                             }).then(response => {
