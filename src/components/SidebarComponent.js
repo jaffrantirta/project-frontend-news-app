@@ -36,16 +36,16 @@ export default function SidebarComponent({ toggle }) {
                                 confirmButtonColor: 'red',
                                 showLoaderOnConfirm: true,
                                 preConfirm: async () => {
-                                    const { data, error } = await signOut()
+                                    const { error } = await signOut()
                                     if (error) {
                                         Swal.showValidationMessage('Gagal logout')
                                         throw error
                                     }
                                     return true
-
                                 }
                             }).then(response => {
                                 if (response.isConfirmed) {
+                                    Swal.fire('Berhasil', '', 'success')
                                 }
                             })} className="flex items-center p-2 space-x-3 rounded-md text-sm sm:text-base">
                                 <span>Logout</span>
