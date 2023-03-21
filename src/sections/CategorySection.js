@@ -26,7 +26,7 @@ export default function CategorySection() {
                     return (
                         <div key={indexCategory}>
                             <p className='text-2xl text-red-600 font-bold underline'>{category.name}</p>
-                            {category.news.map((news, indexNews) => <NewsListComponent className={'my-2'} img={news.image_public_url} key={indexNews} withCategory={false} classNameTitle={'text-sm'} title={news.title} date={moment(news.created_at).format('lll')} />)}
+                            {category.news.map((news, indexNews) => <NewsListComponent id={news.id} className={'my-2'} img={news.image_public_url} key={indexNews} withCategory={false} classNameTitle={'text-sm'} title={news.title} date={moment(news.created_at).format('lll')} />)}
                         </div>
                     )
                 }

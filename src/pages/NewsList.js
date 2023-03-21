@@ -59,16 +59,17 @@ export default function NewsList() {
         getNewsRight()
     }, [search])
 
-    return (loading ? <Loader loadText={'Mohon tunggu...'} /> :
+    return (
         <div>
             <HeaderSection />
             <hr></hr>
             <NavbarSection />
             {queryParams.has('keyword') ? <p className='text-center md:text-4xl px-10 underline'>Menampilkan pencarian  <span className='font-bold'>"{queryParams.get('keyword')}"</span></p> : <></>}
             {queryParams.has('id') ? <p className='text-center md:text-4xl px-10 underline'>Menampilkan berita kategori  <span className='font-bold'>"{queryParams.get('name')}"</span></p> : <></>}
+            {queryParams.has('tag') ? <p className='text-center md:text-4xl px-10 underline'>Menampilkan berita dengan tag  <span className='font-bold'>"{queryParams.get('tag')}"</span></p> : <></>}
             <div className='p-10 grid grid-cols-q md:grid-cols-4 gap-10'>
                 <div className='md:col-span-3'>
-                    {newsListLeft.length === 0 ? <Message img={ImgNotFound} message={'Tidak ada berita ditemukan'} /> : newsListLeft.map((item, index) => (
+                    {loading ? <Loader loadText={'Mohon tunggu...'} /> : newsListLeft.length === 0 ? <Message img={ImgNotFound} message={'Tidak ada berita ditemukan'} /> : newsListLeft.map((item, index) => (
                         <div className='my-5' key={index}>
                             <NewsListComponent
                                 id={item.id}
@@ -78,6 +79,7 @@ export default function NewsList() {
                                 category={item.categories.name} />
                         </div>
                     ))}
+}
                 </div>
                 <div className='flex flex-col gap-5 overflow-y-auto'>
                     <p className='text-2xl text-red-600 font-bold underline'>BERITA TERPOPULER</p>
